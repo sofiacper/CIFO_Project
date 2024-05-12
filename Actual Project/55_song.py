@@ -1,10 +1,10 @@
 from charles.charles import Population, Individual
-from charles.search import hill_climb, sim_annealing
+#from charles.search import hill_climb, sim_annealing
 from copy import copy
 from math import sqrt
 from charles.selection import fps, tournament_sel
 from charles.mutation import swap_mutation
-from charles.xo import cycle_xo
+from charles.xo import cycle_xo, single_point_xo
 
 def get_fitness(self):
     """A simple objective function to calculate distances
@@ -43,7 +43,7 @@ Individual.get_neighbours = get_neighbours
 P = Population(size=40, optim="min", sol_size=55,
                  valid_set=[i for i in range(127)], repetition = True)
 
-P.evolve(gens=100, xo_prob=0.9, mut_prob=0.15, select=tournament_sel,xo=cycle_xo, mutate=swap_mutation, elitism=True)
+P.evolve(gens=15, xo_prob=0.9, mut_prob=0.15, select=tournament_sel,xo=single_point_xo, mutate=swap_mutation, elitism=True)
 
 #hill_climb(P)
 #sim_annealing(P)
