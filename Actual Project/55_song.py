@@ -6,6 +6,20 @@ from charles.selection import fps, tournament_sel
 from charles.mutation import swap_mutation
 from charles.xo import cycle_xo, single_point_xo
 
+target = [76, 12, 76, 12, 20, 12, 76, 12, 20, 12, 72, 12, 76, 12, 20, 12, 79, 12, 20, 36, 67, 12, 20, 36, 72, 12, 20,
+          24, 67, 12, 20, 24, 64, 12, 20, 24, 69, 12, 20, 12, 71, 12, 20, 12, 70, 12, 69, 12, 20, 12, 67, 16, 76, 16,
+          79, 16, 81, 12, 20, 12, 77, 12, 79, 12, 20, 12, 76, 12, 20, 12, 72, 12, 74, 12, 71, 12, 20, 24, 48, 12, 20,
+          12, 79, 12, 78, 12, 77, 12, 75, 12, 60, 12, 76, 12, 53, 12, 68, 12, 69, 12, 72, 12, 60, 12, 69, 12, 72, 12,
+          74, 12, 48, 12, 20, 12, 79, 12, 78, 12, 77, 12, 75, 12, 55, 12, 76, 12, 20, 12, 84, 12, 20, 12, 84, 12, 84,
+          12, 55, 12, 20, 12, 48, 12, 20, 12, 79, 12, 78, 12, 77, 12, 75, 12, 60, 12, 76, 12, 53, 12, 68, 12, 69, 12,
+          72, 12, 60, 12, 69, 12, 72, 12, 74, 12, 48, 12, 20, 12, 75, 24, 20, 12, 74, 24, 20, 12, 72, 24, 20, 12, 55,
+          12, 55, 12, 20, 12, 48, 12, 72, 12, 72, 12, 20, 12, 72, 12, 20, 12, 72, 12, 74, 12, 20, 12, 76, 12, 72, 12,
+          20, 12, 69, 12, 67, 12, 20, 12, 43, 12, 20, 12, 72, 12, 72, 12, 20, 12, 72, 12, 20, 12, 72, 12, 74, 12, 76,
+          12, 55, 12, 20, 24, 48, 12, 20, 24, 43, 12, 20, 12, 72, 12, 72, 12, 20, 12, 72, 12, 20, 12, 72, 12, 74, 12,
+          20, 12, 76, 12, 72, 12, 20, 12, 69, 12, 67, 12, 20, 12, 43, 12, 20, 12, 76, 12, 76, 12, 20, 12, 76, 12, 20,
+          12, 72, 12, 76, 12, 20, 12, 79, 12, 20, 36, 67, 12, 20, 36]
+
+print(len(target))
 def get_fitness(self):
     """A simple objective function to calculate distances
     for the TSP problem.
@@ -14,10 +28,10 @@ def get_fitness(self):
         int: the total distance of the path
     """
     fitness = 0
-    target = [60,60,62,64,64,62,60,59,59,60,60,59,59,60,60,62,64,64,62,60,59,59,60,59, 60, 59, 59, 59,59, 60, 59, 60, 62, 60, 59, 60, 59, 60, 62, 64, 62, 60, 60, 62, 64, 64, 62, 60, 59, 59, 60, 59,60, 59, 59]
     for i in range(len(self.representation)):
         fitness += ((target[i] - self.representation[i]))**2
     return round(sqrt(fitness))
+
 
 
 def get_neighbours(self):
@@ -43,7 +57,7 @@ Individual.get_neighbours = get_neighbours
 P = Population(size=40, optim="min", sol_size=55,
                  valid_set=[i for i in range(127)], repetition = True)
 
-P.evolve(gens=30, xo_prob=0.9, mut_prob=0.15, select=tournament_sel,xo=single_point_xo, mutate=swap_mutation, elitism=True)
+P.evolve(gens=300, xo_prob=0.9, mut_prob=0.15, select=tournament_sel,xo=single_point_xo, mutate=swap_mutation, elitism=True)
 
 #hill_climb(P)
 #sim_annealing(P)
