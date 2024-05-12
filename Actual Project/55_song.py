@@ -1,5 +1,7 @@
 from charles.charles import Population, Individual
 #from charles.search import hill_climb, sim_annealing
+
+from charles.geooperators import geometric_xo, geometric_mutation
 from copy import copy
 from math import sqrt
 from charles.selection import fps, tournament_sel
@@ -54,10 +56,10 @@ def get_neighbours(self):
 Individual.get_fitness = get_fitness
 Individual.get_neighbours = get_neighbours
 
-P = Population(size=40, optim="min", sol_size=55,
-                 valid_set=[i for i in range(127)], repetition = True)
+P = Population(size=500, optim="min", sol_size=312,
+                 valid_set=[i for i in range(127)], repetition=True)
 
-P.evolve(gens=300, xo_prob=0.9, mut_prob=0.15, select=tournament_sel,xo=single_point_xo, mutate=swap_mutation, elitism=True)
+P.evolve(gens=50, xo_prob=0.9, mut_prob=0.15, select=tournament_sel,xo=geometric_xo, mutate=geometric_mutation, elitism=True)
 
 #hill_climb(P)
 #sim_annealing(P)
