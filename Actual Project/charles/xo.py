@@ -1,32 +1,34 @@
 from random import randint
 
+"""Implementation of crossovers.
+Args:
+    parent1 (Individual): First parent for crossover.
+    parent2 (Individual): Second parent for crossover.
+Returns:
+    Individuals: Two offspring, resulting from the crossover.
+"""
 
 def single_point_xo(parent1, parent2):
-    """Implementation of single point crossover.
-
-    Args:
-        parent1 (Individual): First parent for crossover.
-        parent2 (Individual): Second parent for crossover.
-
-    Returns:
-        Individuals: Two offspring, resulting from the crossover.
-    """
-    xo_point = randint(1, len(parent1)-1)
+    xo_point = randint(1, len(parent1) - 1)
     offspring1 = parent1[:xo_point] + parent2[xo_point:]
     offspring2 = parent2[:xo_point] + parent1[xo_point:]
     return offspring1, offspring2
 
+def multi_point_xo(parent1, parent2): #this one in specific is two point xo
+    xo_point1 = randint(1, len(parent1) - 2)
+    xo_point2 = randint(xo_point1 + 1, len(parent2) - 1) #make sure the second crossover point is
+    #bigger than the first to avoiding
+    #indexing errors
+    offspring1 = parent1[:xo_point1] + parent2[xo_point1:xo_point2] + parent1[xo_point2:]
+    offspring2 = parent2[:xo_point1] + parent1[xo_point1:xo_point2] + parent2[xo_point2:]
+    return offspring1, offspring2
+
+
+'''
+def uniform_crossover(parent1, parent2):
+
 
 def cycle_xo(p1, p2):
-    """Implementation of cycle crossover.
-
-    Args:
-        p1 (Individual): First parent for crossover.
-        p2 (Individual): Second parent for crossover.
-
-    Returns:
-        Individuals: Two offspring, resulting from the crossover.
-    """
     # offspring placeholders
     offspring1 = [None] * len(p1)
     offspring2 = [None] * len(p1)
@@ -52,3 +54,8 @@ def cycle_xo(p1, p2):
                     offspring2[index] = p1[index]
 
     return offspring1, offspring2
+
+def pm_xo(parent1, parent2):
+
+def order_xo(parent1, parent2):
+'''
