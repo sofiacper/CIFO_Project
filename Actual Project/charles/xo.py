@@ -41,33 +41,31 @@ def uniform_xo(parent1, parent2):
     return offspring1, offspring2
 
 '''
-def cycle_xo(parent1, parent2):
-    offspring1 = [None] * len(parent1)
-    offspring2 = [None] * len(parent2)
-    visited = [False] * len(parent1) #initialize a array to track visited indices
-    cycle_start = 0
-    while True:
-        index = cycle_start
-        while not visited[index]:
-            #inherit genes from the current parent
-            offspring1[index] = parent1[index]
-            offspring2[index] = parent2[index]
-            visited[index] = True #mark the index as visited
-            #find corresponding index in the other parent
-            index = parent1.index(parent2[index])
+def cycle_xo(p1, p2):
+    # Offspring placeholders - None values make it easy to debug for errors
+    offspring1 = [None] * len(p1.representation)
+    offspring2 = [None] * len(p2.representation)
+    # While there are still None values in offspring, get the first index of
+    # None and start a "cycle" according to the cycle crossover method
+    while None in offspring1:
+        index = offspring1.index(None)
+        val1 = p1.representation[index]
+        val2 = p2.representation[index]
 
-        #switch to the other parent
-        cycle_start = visited.index(False)
+        # copy the cycle elements
+        while val1 != val2:
+            offspring1[index] = p1.representation[index]
+            offspring2[index] = p2.representation[index]
+            val2 = p2.representation[index]
+            index = p1.representation.index(val2)
 
-        if cycle_start == 0: #when the cycle is complete
-            break
-
-    #fill in remaining genes
-    for i in range(len(parent1)):
-        if offspring1[i] is None:
-            offspring1[i] = parent2[i]
-        if offspring2[i] is None:
-            offspring2[i] = parent1[i]
+        # copy the rest
+        for element in offspring1:
+            if element is None:
+                index = offspring1.index(None)
+                if offspring1[index] is None:
+                    offspring1[index] = p2.representation[index]
+                    offspring2[index] = p1.representation[index]
 
     return offspring1, offspring2
 

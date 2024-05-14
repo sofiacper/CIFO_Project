@@ -59,7 +59,7 @@ Individual.get_neighbours = get_neighbours
 P = Population(size=20, optim="min", sol_size=312,
                  valid_set=[i for i in range(127)], repetition=True)
 
-P.evolve(gens=10, xo_prob=0.9, mut_prob=0.15, select=tournament_sel,xo=uniform_xo, mutate=swap_mutation, elitism=True)
+P.evolve(gens=10, xo_prob=0.9, mut_prob=0.15, select=fps, xo=cycle_xo, mutate=swap_mutation, elitism=True)
 
 #hill_climb(P)
 #sim_annealing(P)
