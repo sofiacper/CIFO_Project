@@ -40,10 +40,37 @@ def uniform_xo(parent1, parent2):
             offspring2[i] = parent1[i]
     return offspring1, offspring2
 
-
-
 '''
 def cycle_xo(parent1, parent2):
+    offspring1 = [None] * len(parent1)
+    offspring2 = [None] * len(parent2)
+    visited = [False] * len(parent1) #initialize a array to track visited indices
+    cycle_start = 0
+    while True:
+        index = cycle_start
+        while not visited[index]:
+            #inherit genes from the current parent
+            offspring1[index] = parent1[index]
+            offspring2[index] = parent2[index]
+            visited[index] = True #mark the index as visited
+            #find corresponding index in the other parent
+            index = parent1.index(parent2[index])
+
+        #switch to the other parent
+        cycle_start = visited.index(False)
+
+        if cycle_start == 0: #when the cycle is complete
+            break
+
+    #fill in remaining genes
+    for i in range(len(parent1)):
+        if offspring1[i] is None:
+            offspring1[i] = parent2[i]
+        if offspring2[i] is None:
+            offspring2[i] = parent1[i]
+
+    return offspring1, offspring2
+
 
 def pm_xo(parent1, parent2):
     size = len(cities) #CHANGE THIS
