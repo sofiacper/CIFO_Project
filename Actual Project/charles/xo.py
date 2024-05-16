@@ -1,5 +1,6 @@
 import random
 from random import randint
+from random import uniform
 
 """Implementation of crossovers.
 Args:
@@ -7,6 +8,17 @@ Args:
     parent2 (Individual): Second parent for crossover.
 Returns:
     Individuals: Two offspring, resulting from the crossover.
+    
+Crossovers:
+1. Single Point Crossover
+2. Two Point Crossover
+3. Uniform Crossover
+4. Cycle Crossover
+5. Partially Mapped Crossover
+6. Order Crossover
+7. Arithmetic Crossover
+8. Blend Crossover
+9. BLX-Alpha Crossover
 """
 
 def single_point_xo(parent1, parent2):
@@ -16,7 +28,7 @@ def single_point_xo(parent1, parent2):
     return offspring1, offspring2
 
 #can have several breaking points
-def multi_point_xo(parent1, parent2): #this one in specific is two point xo
+def two_point_xo(parent1, parent2): #this one in specific is two point xo
     xo_point1 = randint(1, len(parent1) - 2)
     xo_point2 = randint(xo_point1 + 1, len(parent2) - 1)
     #make sure the second crossover point is bigger than the first to avoiding indexing errors
@@ -103,31 +115,36 @@ def pm_xo(parent1, parent2):
 
 def order_xo(parent1, parent2):
 
-def blend_xo(parent1, parent2):
+'''
 
-
-def arithmetic_xo_modified(p1,p2):
-    """little twist on the arithmetic xo where the 2 offsprings are not equal
-    (from the implementations we found: they were supposed to be equal)"""
-
+def arithmetic_xo(parent1, parent2):
     # create r - only one randomly generated value between 0 and 1, in a uniform distribution
     alpha = uniform(0,1)
 
-    # initiate both offsprings with None values
-    offspring1 = [None for elem in range(len(p1))] 
-    offspring2 = [None for elem in range(len(p2))]
+    offspring1 = []
+    offspring2 = []
 
-    # generate offspring
-    for elem in range(len(p1)):
-        offspring1[elem] = alpha*p2[elem] + (1-alpha)*p1[elem]
-        offspring2[elem] = alpha*p1[elem] + (1-alpha)*p2[elem]
+    for i in range(len(parent1)):
+        offspring1.append(alpha * parent1[i] + (1 - alpha) * parent2[i])
+        offspring2.append((1 - alpha) * parent1[i] + alpha * parent2[i])
 
     return offspring1, offspring2
 
+def blend_xo(parent1, parent2):
+    offspring1 = []
+    offspring2 = []
+    alpha = 0.5
 
-'''
+    for i in range(len(parent1)):
+        weight1 = alpha * parent1[i] + (1 - alpha) * parent2[i]
+        weight2 = (1 - alpha) * parent1[i] + alpha * parent2[i]
+
+        offspring1.append(weight1)
+        offspring2.append(weight2)
+
+    return offspring1, offspring2
+
 def blx_alpha_xo(parent1, parent2):
-
     alpha = 0.5  # Exploration intensity parameter
     offspring1 = []
     offspring2 = []
