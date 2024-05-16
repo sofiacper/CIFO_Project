@@ -102,4 +102,29 @@ def pm_xo(parent1, parent2):
 
 
 def order_xo(parent1, parent2):
+
+def blend_xo(parent1, parent2):
+
 '''
+def blx_alpha_xo(parent1, parent2):
+
+    alpha = 0.5  # Exploration intensity parameter
+    offspring1 = []
+    offspring2 = []
+
+    for i in range(len(parent1)):
+        weight_min = min(parent1[i], parent2[i])  # Minimum value between corresponding weights in parents
+        weight_max = max(parent1[i], parent2[i])  # Maximum value between corresponding weights in parents
+
+        range_val = weight_max - weight_min  # Range of values between the minimum and maximum
+
+        weight_lower = weight_min - alpha * range_val  # Lower bound of the range
+        weight_upper = weight_max + alpha * range_val  # Upper bound of the range
+
+        weight_final_1 = random.uniform(weight_lower, weight_upper)  # Choosing the value in a random way within the range for offspring 1
+        weight_final_2 = random.uniform(weight_lower, weight_upper)  # Choosing the value in a random way within the range for offspring 2
+
+        offspring1.append(weight_final_1)   # Add the selected value to offspring 1
+        offspring2.append(weight_final_2)   # Add the selected value to offspring 2
+
+    return offspring1, offspring2
