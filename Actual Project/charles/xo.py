@@ -105,6 +105,26 @@ def order_xo(parent1, parent2):
 
 def blend_xo(parent1, parent2):
 
+
+def arithmetic_xo_modified(p1,p2):
+    """little twist on the arithmetic xo where the 2 offsprings are not equal
+    (from the implementations we found: they were supposed to be equal)"""
+
+    # create r - only one randomly generated value between 0 and 1, in a uniform distribution
+    alpha = uniform(0,1)
+
+    # initiate both offsprings with None values
+    offspring1 = [None for elem in range(len(p1))] 
+    offspring2 = [None for elem in range(len(p2))]
+
+    # generate offspring
+    for elem in range(len(p1)):
+        offspring1[elem] = alpha*p2[elem] + (1-alpha)*p1[elem]
+        offspring2[elem] = alpha*p1[elem] + (1-alpha)*p2[elem]
+
+    return offspring1, offspring2
+
+
 '''
 def blx_alpha_xo(parent1, parent2):
 
