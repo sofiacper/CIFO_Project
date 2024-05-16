@@ -71,7 +71,7 @@ def cycle_xo(p1, p2):
 
 
 def pm_xo(parent1, parent2):
-    size = len(cities) #CHANGE THIS
+    size = len(target) #CHANGE THIS
     p1, p2 = [0] * size, [0] * size
 
     #Initialize the position of each indices in the individuals
@@ -99,6 +99,7 @@ def pm_xo(parent1, parent2):
         p2[temp1], p2[temp2] = p2[temp2], p2[temp1]
 
     return ind1, ind2
+
 
 def order_xo(parent1, parent2):
 '''
