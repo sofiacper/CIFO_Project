@@ -1,6 +1,5 @@
-import random
-from random import randint
-from random import uniform
+from random import randint, uniform, choice, sample, random
+
 
 """Implementation of crossovers.
 Args:
@@ -111,11 +110,32 @@ def pm_xo(parent1, parent2):
         p2[temp1], p2[temp2] = p2[temp2], p2[temp1]
 
     return ind1, ind2
-
-
-def order_xo(parent1, parent2):
-
 '''
+
+def order_one_xo(parent1, parent2):
+    size = len(parent1.representation)
+    offspring1 = [None] * size
+    offspring2 = [None] * size
+
+    #randomly select a subsequence
+    start, end = sorted(sample(range(size), 2))
+
+    #copy the subsequence into the offspring
+    offspring1[start:end + 1] = parent1.representation[start:end + 1]
+    offspring2[start:end + 1] = parent2.representation[start:end + 1]
+
+    #fill the remaining positions in both offspring
+    current_pos1, current_pos2 = (end + 1) % size, (end + 1) % size
+    for gene in parent2.representation:
+        if gene not in offspring1:
+            offspring1[current_pos1] = gene
+            current_pos1 = (current_pos1 + 1) % size
+        if gene not in offspring2:
+            offspring2[current_pos2] = gene
+            current_pos2 = (current_pos2 + 1) % size
+
+    return offspring1, offspring2
+
 
 def arithmetic_xo(parent1, parent2):
     # create r - only one randomly generated value between 0 and 1, in a uniform distribution
