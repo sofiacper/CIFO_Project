@@ -12,12 +12,10 @@ Crossovers:
 1. Single Point Crossover
 2. Two Point Crossover
 3. Uniform Crossover
-4. Cycle Crossover
-5. Partially Mapped Crossover
-6. Order Crossover
-7. Arithmetic Crossover
-8. Blend Crossover
-9. BLX-Alpha Crossover
+4. Order Crossover
+5. Arithmetic Crossover
+6. Blend Crossover
+7. BLX-Alpha Crossover
 """
 
 def single_point_xo(parent1, parent2):
@@ -51,66 +49,6 @@ def uniform_xo(parent1, parent2):
             offspring2[i] = parent1[i]
     return offspring1, offspring2
 
-'''
-def cycle_xo(p1, p2):
-    # Offspring placeholders - None values make it easy to debug for errors
-    offspring1 = [None] * len(p1.representation)
-    offspring2 = [None] * len(p2.representation)
-    # While there are still None values in offspring, get the first index of
-    # None and start a "cycle" according to the cycle crossover method
-    while None in offspring1:
-        index = offspring1.index(None)
-        val1 = p1.representation[index]
-        val2 = p2.representation[index]
-
-        # copy the cycle elements
-        while val1 != val2:
-            offspring1[index] = p1.representation[index]
-            offspring2[index] = p2.representation[index]
-            val2 = p2.representation[index]
-            index = p1.representation.index(val2)
-
-        # copy the rest
-        for element in offspring1:
-            if element is None:
-                index = offspring1.index(None)
-                if offspring1[index] is None:
-                    offspring1[index] = p2.representation[index]
-                    offspring2[index] = p1.representation[index]
-
-    return offspring1, offspring2
-
-
-def pm_xo(parent1, parent2):
-    size = len(target) #CHANGE THIS
-    p1, p2 = [0] * size, [0] * size
-
-    #Initialize the position of each indices in the individuals
-    for k in range(size):
-        p1[ind1[k]] = k
-        p2[ind2[k]] = k
-    #Choose crossover points
-    cxpoint1 = random.randint(0, size)
-    cxpoint2 = random.randint(0, size - 1)
-    if cxpoint2 >= cxpoint1:
-        cxpoint2 += 1
-    else:  # Swap the two cx points
-        cxpoint1, cxpoint2 = cxpoint2, cxpoint1
-
-#apply crossover between cx points
-    for k in range(cxpoint1, cxpoint2):
-    # Keep track of the selected values
-        temp1 = ind1[k]
-        temp2 = ind2[k]
-    #swap the matched value
-        ind1[k], ind1[p1[temp2]] = temp2, temp1
-        ind2[k], ind2[p2[temp1]] = temp1, temp2
-    #record position
-        p1[temp1], p1[temp2] = p1[temp2], p1[temp1]
-        p2[temp1], p2[temp2] = p2[temp2], p2[temp1]
-
-    return ind1, ind2
-'''
 
 def order_one_xo(parent1, parent2):
     size = len(parent1.representation)

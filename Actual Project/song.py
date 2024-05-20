@@ -4,7 +4,7 @@ from copy import copy
 from math import sqrt
 from charles.selection import fps, tournament_sel
 from charles.mutation import swap_mutation
-from charles.xo import single_point_xo, two_point_xo, uniform_xo, arithmetic_xo, blend_xo, blx_alpha_xo, order_one_xo
+from charles.xo import single_point_xo, two_point_xo, uniform_xo, pm_xo, arithmetic_xo, blend_xo, blx_alpha_xo, order_one_xo
 
 target = [76, 12, 76, 12, 20, 12, 76, 12, 20, 12, 72, 12, 76, 12, 20, 12, 79, 12, 20, 36, 67, 12, 20, 36, 72, 12, 20,
           24, 67, 12, 20, 24, 64, 12, 20, 24, 69, 12, 20, 12, 71, 12, 20, 12, 70, 12, 69, 12, 20, 12, 67, 16, 76, 16,
@@ -58,4 +58,4 @@ Individual.get_neighbours = get_neighbours
 P = Population(size=20, optim="min", sol_size=312,
                  valid_set=[i for i in range(127)], repetition=True)
 
-#P.evolve(gens=500, xo_prob=0.9, mut_prob=0.15, select=tournament_sel, xo=blx_alpha_xo, mutate=swap_mutation, elitism=True)
+#P.evolve(gens=10, xo_prob=0.9, mut_prob=0.15, select=tournament_sel, xo=single_point_xo, mutate=swap_mutation, elitism=True)
