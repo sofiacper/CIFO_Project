@@ -1,15 +1,13 @@
 from operator import attrgetter
 from random import uniform, choice
 
-# Selection Algorithms:
-# Selects one individual from the population,
-# repeat N independent executions, until indivs in pop = N.
-
-
-# QUESTIONS:
-# ** Where is .fitness defined?
-# It comes from Individual class, get_fitness method?
-# And then re-defined in main problem file?
+"""""
+Selection Algorithms:
+    - fps: Fitness Proportionate Selection (FPS) - Roulette Wheel
+    - rank_sel: Rank Selection
+    - tournament_sel: Tournament Selection
+Selects one individual from the population, repeat N independent executions, until indivs in pop = N.
+"""
 
 
 def fps(population):
@@ -75,7 +73,7 @@ def rank_sel(population):
                 return individual
     elif population.optim == "min":
         # .sort(reverse=True) sorts in descending order (1st rank = worst/higher fitness)
-        population.sort(key=attrgetter('fitness'), reverse=True)
+        population.sorted_pop()
         total_rank = sum([i + 1 for i in range(len(population))])
         r = uniform(0, total_rank)
         position = 0
@@ -106,3 +104,4 @@ def tournament_sel(population, tour_size=3):
         return max(tournament, key=attrgetter('fitness'))
     elif population.optim == "min":
         return min(tournament, key=attrgetter('fitness'))
+    
