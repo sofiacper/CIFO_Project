@@ -43,7 +43,7 @@ def uniform_xo(parent1, parent2):
     offspring2 = [None] * len(parent2)
     for i in range(len(parent1)):
         #randomly decide whether to inherit from parent 1 or parent 2
-        if random.random() < 0.5:
+        if random() < 0.5:
             offspring1[i] = parent1[i]
             offspring2[i] = parent2[i]
         else:
@@ -180,8 +180,8 @@ def blx_alpha_xo(parent1, parent2):
         weight_upper = weight_max + alpha * range_val  #upper bound of the range
 
         # choosing the value in a random way within the range for offsprings
-        weight_final_1 = random.uniform(weight_lower, weight_upper)
-        weight_final_2 = random.uniform(weight_lower, weight_upper)
+        weight_final_1 = uniform(weight_lower, weight_upper)
+        weight_final_2 = uniform(weight_lower, weight_upper)
 
         # Add the selected value to offsprings
         offspring1.append(weight_final_1)
