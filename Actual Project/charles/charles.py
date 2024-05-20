@@ -111,4 +111,7 @@ class Population:
     def __getitem__(self, position):
         return self.individuals[position]
 
+    def sorted_pop(self):
+        return sorted(self, key=attrgetter('fitness'), reverse=True)
+    # reverse=True by default because used in rank_selection --> sorts in descending order (1st rank = worst/higher fitness)
 
