@@ -5,136 +5,112 @@ import pandas as pd
 from charles.charles import Population, Individual
 from song import get_fitness
 from charles.selection import fps, tournament_sel
-from charles.mutation import swap_mutation
-from charles.xo import single_point_xo
+from charles.mutation import swap_mutation, random_reseting, inversion_mutation, scramble_mutation, centre_inverse_mutation
+from charles.xo import single_point_xo, two_point_xo, uniform_xo, arithmetic_xo, blend_xo, blx_alpha_xo, order_one_xo
 
 # Individual Monkey Patching
 Individual.get_fitness = get_fitness
 
-#fitness_experiments = []
-
 # Improved Experiment Labeling
-def create_labels(experiments):
-    labels = []
-    for exp in experiments:
-        label_parts = []
-        #label_parts.append(f"{exp[5].__name__}") #mutation
-        label_parts.append(f"{exp[6].__name__}") #crossover
-        labels.append(", ".join(label_parts))
-    return labels
-
 def run_experiment(population_size, generations, crossover_probability, mutation_probability, selection, mutation,
                    crossover, elitism, sol_size=312, valid_set=[i for i in range(127)]):
     all_fitness = []
-    best_fitnesses = []
 
-    for i in range(10):
+    for i in range(10):  #number of runs
         start_time = time.time()
 
-        # Create a population
+        #xreate a population
         pop = Population(size=population_size, optim="min", sol_size=sol_size, valid_set=valid_set, repetition=True)
 
-        # Track fitness for each generation
+        #track fitness for each generation
         generation_fitness = []
         for gen in range(generations):
-            pop.evolve(gens=1, xo_prob=crossover_probability, mut_prob=mutation_probability,
+            pop.evolve(gens=generations, xo_prob=crossover_probability, mut_prob=mutation_probability,
                        select=selection, mutate=mutation, xo=crossover, elitism=elitism)
             best_fitness = min(ind.fitness for ind in pop.individuals)
             generation_fitness.append(best_fitness)
 
+            #print best fitness for the current generation and the run (podemos tirar isto se ficar pesado era so para eu ver s estava bem)
+            print(f"Run #{i + 1}, Generation #{gen + 1}: Best Fitness: {best_fitness}")
+
         all_fitness.append(generation_fitness)
-        best_fitnesses.append(min(generation_fitness))
 
         end_time = time.time()
         iteration_time = end_time - start_time
         print(f"Iteration {i + 1} time: {round(iteration_time, 2)} seconds")
 
-    return all_fitness, best_fitnesses
+    #transpose all_fitness to have each generation's best fitnesses in the same list
+    all_fitness = list(map(list, zip(*all_fitness)))
 
-def plot_average_best_fitness(all_fitness):
-    # Calculate the average best fitness per generation
-    avg_best_fitness = np.mean(all_fitness, axis=0)
+    #compute the median best fitness for each generation across all runs
+    median_best_fitness_per_gen = [np.median(gen_fitness) for gen_fitness in all_fitness]
 
-    # Plot the average best fitness per generation
-    plt.plot(range(1, len(avg_best_fitness) + 1), avg_best_fitness, marker='o', linestyle='-')
-    plt.title('Average Best Fitness per Generation')
-    plt.xlabel('Generation')
-    plt.ylabel('Average Best Fitness')
-    plt.grid(True)
-    plt.show()
+    return median_best_fitness_per_gen
 
-# Run the experiments and store results
-all_fitness, best_fitnesses = run_experiment(population_size=10, generations=10, crossover_probability=0.9,
-                                             mutation_probability=0.2, selection=tournament_sel, mutation=swap_mutation,
-                                             crossover=single_point_xo, elitism=True)
+#population_size, generations, crossover_probability, mutation_probability, selection, mutation, crossover
 
-# Plot the average best fitness per generation
-plot_average_best_fitness(all_fitness)
-
-#experiments configurations
+#quando testarem os crossovers, deixar o codigo abaixo comentado (so o das configurações)
+#crossovers (é so alterar o algoritmo de seleção)
 experiments = [
-    [10, 10, 0.9, 0.2, tournament_sel, swap_mutation, single_point_xo, True, True, True],
-    [10, 10, 0.9, 0.2, fps, swap_mutation, single_point_xo, True, True, False]
+    [100, 300, 0.9, 0.2, fps, swap_mutation, single_point_xo, True],
+    [100, 300, 0.9, 0.2, fps, swap_mutation, two_point_xo, True],
+    [100, 300, 0.9, 0.2, fps, swap_mutation, uniform_xo, True],
+    [100, 300, 0.9, 0.2, fps, swap_mutation, arithmetic_xo, True],
+    [100, 300, 0.9, 0.2, fps, swap_mutation, blend_xo, True],
+    [100, 300, 0.9, 0.2, fps, swap_mutation, blx_alpha_xo, True],
+    [100, 300, 0.9, 0.2, fps, swap_mutation, order_one_xo, True]
 ]
 
-#create labels for experiments
-labels = create_labels(experiments)
-
-# Print the labels for verification
-for i, label in enumerate(labels):
-    print(f"Experiment {i + 1}: {label}")
+'''
+#quando testarem as mutations, comentar o codigo acima (so o das configurações) e descomentar este
+#mutations (é so alterar o algoritmo de seleção)
+experiments = [
+    [100, 300, 0.9, 0.2, fps, swap_mutation, single_point_xo, True],
+    [100, 300, 0.9, 0.2, fps, random_reseting, single_point_xo, True],
+    [100, 300, 0.9, 0.2, fps, inversion_mutation, single_point_xo, True],
+    [100, 300, 0.9, 0.2, fps, scramble_mutation, single_point_xo, True],
+    [100, 300, 0.9, 0.2, fps, centre_inverse_mutation, single_point_xo, True]
+]
+'''
 
 #run the experiments and store results
-experiment_results = []
+all_median_fitnesses = []
+
 for exp in experiments:
-    print(f"Running experiment: {experiments.index(exp) + 1}")
-    avg_fitness, std_fitness = run_experiment(population_size=exp[0],
-                                              generations=exp[1],
-                                              crossover_probability=exp[2],
-                                              mutation_probability=exp[3],
-                                              selection=exp[4],
-                                              mutation=exp[5],
-                                              crossover=exp[6],
-                                              elitism=exp[7],
-                                              sol_size=312,
-                                              valid_set=[i for i in range(127)])
+    all_median_fitnesses.append(run_experiment(population_size=exp[0], generations=exp[1], crossover_probability=exp[2],
+                                        mutation_probability=exp[3], selection=exp[4], mutation=exp[5],
+                                        crossover=exp[6], elitism=exp[7]))
 
-    experiment_results.append([avg_fitness, std_fitness])
-    print(f"Experiment {experiments.index(exp) + 1} finished")
-    print("--------------------------------------------------")
+def create_labels(experiments):
+    labels = []
+    for exp in experiments:
+        label_parts = []
+        #label_parts.append(f"{exp[4].__name__}") #selection
+        #label_parts.append(f"{exp[5].__name__}") #mutation
+        label_parts.append(f"{exp[6].__name__}") #crossover
+        labels.append(", ".join(label_parts))
+    return labels
 
-# Create a DataFrame to store the results
-df_results = pd.DataFrame(experiment_results, columns=["Average Fitness", "Standard Deviation"])
-df_results["Experiment"] = labels
+#create as labels para os graficos
+labels = create_labels(experiments)
 
-print(df_results)
 
-def plot_average_best_fitness(all_fitnesses, labels):
-    # Plot the average best fitness per generation for each experiment
-    for i, fitness in enumerate(all_fitnesses):
-        avg_best_fitness = np.mean(fitness, axis=0)
-        plt.plot(range(1, len(avg_best_fitness) + 1), avg_best_fitness, marker='o', linestyle='-', label=labels[i])
+#function to automatically plot the graph
+def plot_average_best_fitness(all_median_fitnesses, labels):
+    #plot the median best fitness per generation for each experiment
+    for i, median_best_fitness in enumerate(all_median_fitnesses):
+        plt.plot(range(1, len(median_best_fitness) + 1), median_best_fitness, marker='o', linestyle='-', label=labels[i])
 
-    plt.title('Average Best Fitness per Generation')
+    plt.title('Median Best Fitness per Generation')
     plt.xlabel('Generation')
-    plt.ylabel('Average Best Fitness')
+    plt.ylabel('Median Best Fitness')
     plt.legend()
     plt.grid(True)
     plt.show()
 
-# Run the experiments and store results
-all_fitnesses = []
-labels = []
 
-for exp in experiments:
-    avg_best_fitness, _ = run_experiment(population_size=exp[0], generations=exp[1], crossover_probability=exp[2],
-                                         mutation_probability=exp[3], selection=exp[4], mutation=exp[5],
-                                         crossover=exp[6], elitism=exp[7])
-    all_fitnesses.append(avg_best_fitness)
-    labels.append(create_labels([exp])[0])
-
-# Plot the average best fitness per generation for each experiment
-plot_average_best_fitness(all_fitnesses, labels)
+#plots the graph for each experiment
+plot_average_best_fitness(all_median_fitnesses, labels)
 
 
 '''
@@ -163,6 +139,30 @@ def run_experiment(population_size, generations, crossover_probability, mutation
     std_fitness = np.std(iterations_fitness)
 
     return average_fitness, std_fitness
+    
+experiment_results = []
+for exp in experiments:
+    print(f"Running experiment: {experiments.index(exp) + 1}")
+    avg_fitness, std_fitness = run_experiment(population_size=exp[0],
+                                              generations=exp[1],
+                                              crossover_probability=exp[2],
+                                              mutation_probability=exp[3],
+                                              selection=exp[4],
+                                              mutation=exp[5],
+                                              crossover=exp[6],
+                                              elitism=exp[7],
+                                              sol_size=312,
+                                              valid_set=[i for i in range(127)])
+
+    experiment_results.append([avg_fitness, std_fitness])
+    print(f"Experiment {experiments.index(exp) + 1} finished")
+    print("--------------------------------------------------")
+
+# Create a DataFrame to store the results
+df_results = pd.DataFrame(experiment_results, columns=["Average Fitness", "Standard Deviation"])
+df_results["Experiment"] = labels
+
+print(df_results)
 
 plt.figure(figsize=(10, 6))
 plt.errorbar(df_results["Experiment"].values, df_results["Average Fitness"].values, yerr=df_results["Standard Deviation"].values, fmt='o')

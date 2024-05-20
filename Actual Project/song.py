@@ -19,7 +19,7 @@ target = [76, 12, 76, 12, 20, 12, 76, 12, 20, 12, 72, 12, 76, 12, 20, 12, 79, 12
           20, 12, 76, 12, 72, 12, 20, 12, 69, 12, 67, 12, 20, 12, 43, 12, 20, 12, 76, 12, 76, 12, 20, 12, 76, 12, 20,
           12, 72, 12, 76, 12, 20, 12, 79, 12, 20, 36, 67, 12, 20, 36]
 
-print(len(target))
+#print(len(target))
 def get_fitness(self):
     """A simple objective function to calculate distances
     for the TSP problem.
@@ -58,4 +58,4 @@ Individual.get_neighbours = get_neighbours
 P = Population(size=20, optim="min", sol_size=312,
                  valid_set=[i for i in range(127)], repetition=True)
 
-#P.evolve(gens=500, xo_prob=0.9, mut_prob=0.15, select=tournament_sel, xo=single_point_xo, mutate=swap_mutation, elitism=True)
+#P.evolve(gens=500, xo_prob=0.9, mut_prob=0.15, select=tournament_sel, xo=blx_alpha_xo, mutate=swap_mutation, elitism=True)
