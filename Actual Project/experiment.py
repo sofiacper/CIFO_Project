@@ -18,8 +18,8 @@ def create_labels(experiments):
     labels = []
     for exp in experiments:
         label_parts = []
-        #label_parts.append(f"{exp[5].__name__}")
-        label_parts.append(f"{exp[6].__name__}")
+        #label_parts.append(f"{exp[5].__name__}") #mutation
+        label_parts.append(f"{exp[6].__name__}") #crossover
         labels.append(", ".join(label_parts))
     return labels
 
@@ -50,38 +50,6 @@ def run_experiment(population_size, generations, crossover_probability, mutation
         print(f"Iteration {i + 1} time: {round(iteration_time, 2)} seconds")
 
     return all_fitness, best_fitnesses
-
-'''
-#define run_experiment function
-def run_experiment(population_size, generations, crossover_probability, mutation_probability, selection, mutation,
-                   crossover, elitism, sol_size=312, valid_set=[i for i in range(127)]):
-    iterations_fitness = []
-    for i in range(10):
-        start_time = time.time()
-
-        #create a population
-        pop = Population(size=population_size, optim="min", sol_size=sol_size, valid_set=valid_set, repetition=True)
-
-        # Evolve the population for the specified number of generations
-        pop.evolve(gens=generations, xo_prob=crossover_probability, mut_prob=mutation_probability,
-                   select=selection, mutate=mutation, xo=crossover, elitism=elitism)
-
-
-        best_fitness = min(ind.fitness for ind in pop.individuals)
-        iterations_fitness.append(best_fitness)
-
-        end_time = time.time()
-        iteration_time = end_time - start_time
-        print(f"Iteration {i + 1} time: {round(iteration_time, 2)} seconds")
-
-    average_fitness = np.mean(iterations_fitness)
-    std_fitness = np.std(iterations_fitness)
-
-    return average_fitness, std_fitness
-'''
-
-import matplotlib.pyplot as plt
-import numpy as np
 
 def plot_average_best_fitness(all_fitness):
     # Calculate the average best fitness per generation
@@ -170,6 +138,32 @@ plot_average_best_fitness(all_fitnesses, labels)
 
 
 '''
+def run_experiment(population_size, generations, crossover_probability, mutation_probability, selection, mutation,
+                   crossover, elitism, sol_size=312, valid_set=[i for i in range(127)]):
+    iterations_fitness = []
+    for i in range(10):
+        start_time = time.time()
+
+        #create a population
+        pop = Population(size=population_size, optim="min", sol_size=sol_size, valid_set=valid_set, repetition=True)
+
+        # Evolve the population for the specified number of generations
+        pop.evolve(gens=generations, xo_prob=crossover_probability, mut_prob=mutation_probability,
+                   select=selection, mutate=mutation, xo=crossover, elitism=elitism)
+
+
+        best_fitness = min(ind.fitness for ind in pop.individuals)
+        iterations_fitness.append(best_fitness)
+
+        end_time = time.time()
+        iteration_time = end_time - start_time
+        print(f"Iteration {i + 1} time: {round(iteration_time, 2)} seconds")
+
+    average_fitness = np.mean(iterations_fitness)
+    std_fitness = np.std(iterations_fitness)
+
+    return average_fitness, std_fitness
+
 plt.figure(figsize=(10, 6))
 plt.errorbar(df_results["Experiment"].values, df_results["Average Fitness"].values, yerr=df_results["Standard Deviation"].values, fmt='o')
 plt.xticks(rotation=45, ha='right')
@@ -179,61 +173,4 @@ plt.title('Average Fitness of Experiments')
 plt.tight_layout()
 plt.show()
 
-
-
-# The commented code, plots the average fitness and standard deviation
-# for multiple experiments  
-# Plot the results
-# Extract avg and std values from the fitness_experiments
-avg = [exp[0] for exp in fitness_experiments]
-std = [exp[1] for exp in fitness_experiments]
-
-# Calculate the upper and lower bounds for the shaded area
-upper_bound = [ [a + s for a, s in zip(avg[i], std[i])] for i in range(len(avg))]
-lower_bound = [ [a - s for a, s in zip(avg[i], std[i])] for i in range(len(avg))]
-
-# Create the figure and axis
-fig, ax = plt.subplots(figsize=(12, 6))
-
-# Plot the fitness by experiment
-for a in range(len(avg)):
-    # Plot the average line
-    ax.plot(range(len(avg[a])), avg[a], label=label_list[a])
-    # Fill the area between the bounds
-    ax.fill_between(range(len(avg[a])), lower_bound[a], upper_bound[a], alpha=0.2)
-
-# Set labels and title
-ax.set_xlabel('Generations')
-ax.set_ylabel('Fitness')
-ax.set_title('Fitness Lanscape')
-
-# Only display average line in the legend
-#ax.legend(label_list,bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
-handles, labels = ax.get_legend_handles_labels()
-ax.legend(handles[:len(avg)], labels[:len(avg)], bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
-
-# set the left and right margins
-plt.subplots_adjust(left=0.08, right=0.73)
-
-# Show the plot
-plt.show()
-
-
-#  This code plots the average fitness and for multiple experiments  
-plt.subplots(figsize=(12, 6))
-
-avg = [exp[0] for exp in fitness_experiments]
-
-for exp in avg:
-    plt.plot(exp)
-
-plt.xlabel("Generation") 
-plt.ylabel("Fitness")
-plt.title("Fitness Lanscape")
-# set the left and right margins
-plt.subplots_adjust(left=0.08, right=0.6)
-# Add a legend outside the plot
-plt.legend(label_list, bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
-# Shows the plot
-plt.show()
 '''
