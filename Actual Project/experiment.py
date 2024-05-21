@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from charles.charles import Population, Individual
 from song import get_fitness
-from charles.selection import fps, tournament_sel
+from charles.selection import fps, tournament_sel, rank
 from charles.mutation import swap_mutation, random_reseting, inversion_mutation, scramble_mutation, centre_inverse_mutation
 from charles.xo import single_point_xo, two_point_xo, uniform_xo, arithmetic_xo, blend_xo, blx_alpha_xo, order_one_xo
 
@@ -51,6 +51,7 @@ def run_experiment(population_size, generations, crossover_probability, mutation
 
 #quando testarem os crossovers, deixar o codigo abaixo comentado (so o das configurações)
 #crossovers (é so alterar o algoritmo de seleção)
+
 experiments = [
     [100, 300, 0.9, 0.2, fps, swap_mutation, single_point_xo, True],
     [100, 300, 0.9, 0.2, fps, swap_mutation, two_point_xo, True],
@@ -61,7 +62,7 @@ experiments = [
     [100, 300, 0.9, 0.2, fps, swap_mutation, order_one_xo, True]
 ]
 
-'''
+"""
 #quando testarem as mutations, comentar o codigo acima (so o das configurações) e descomentar este
 #mutations (é so alterar o algoritmo de seleção)
 experiments = [
@@ -71,7 +72,7 @@ experiments = [
     [100, 300, 0.9, 0.2, fps, scramble_mutation, single_point_xo, True],
     [100, 300, 0.9, 0.2, fps, centre_inverse_mutation, single_point_xo, True]
 ]
-'''
+""""
 
 #run the experiments and store results
 all_median_fitnesses = []
