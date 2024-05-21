@@ -4,10 +4,14 @@ import numpy as np
 import pandas as pd
 from charles.charles import Population, Individual
 from song import get_fitness
+<<<<<<< Updated upstream
 from charles.selection import fps, tournament_sel, rank
+=======
+from charles.selection import fps, tournament_sel, rank_sel
+>>>>>>> Stashed changes
 from charles.mutation import swap_mutation, random_reseting, inversion_mutation, scramble_mutation, centre_inverse_mutation
 from charles.xo import single_point_xo, two_point_xo, uniform_xo, arithmetic_xo, blend_xo, blx_alpha_xo, order_one_xo
-
+from charles.geooperators import geometric_mutation, geometric_xo
 # Individual Monkey Patching
 Individual.get_fitness = get_fitness
 
@@ -16,10 +20,10 @@ def run_experiment(population_size, generations, crossover_probability, mutation
                    crossover, elitism, sol_size=312, valid_set=[i for i in range(127)]):
     all_fitness = []
 
-    for i in range(10):  #number of runs
+    for i in range(5):  #number of runs
         start_time = time.time()
 
-        #xreate a population
+        #Create a population
         pop = Population(size=population_size, optim="min", sol_size=sol_size, valid_set=valid_set, repetition=True)
 
         #track fitness for each generation
@@ -49,9 +53,17 @@ def run_experiment(population_size, generations, crossover_probability, mutation
 
 #population_size, generations, crossover_probability, mutation_probability, selection, mutation, crossover
 
+<<<<<<< Updated upstream
 #quando testarem os crossovers, deixar o codigo abaixo comentado (so o das configurações)
 #crossovers (é so alterar o algoritmo de seleção)
 
+=======
+#_______________________Possible tests:_________________________
+
+#  1) xo: To test xo's uncomment the code bellow
+'''
+#Nota: Aqui só está o exemplo de fps, para testar tudo mudar o algoritmo de seleção
+>>>>>>> Stashed changes
 experiments = [
     [100, 300, 0.9, 0.2, fps, swap_mutation, single_point_xo, True],
     [100, 300, 0.9, 0.2, fps, swap_mutation, two_point_xo, True],
@@ -61,10 +73,18 @@ experiments = [
     [100, 300, 0.9, 0.2, fps, swap_mutation, blx_alpha_xo, True],
     [100, 300, 0.9, 0.2, fps, swap_mutation, order_one_xo, True]
 ]
+<<<<<<< Updated upstream
 
 """
 #quando testarem as mutations, comentar o codigo acima (so o das configurações) e descomentar este
 #mutations (é so alterar o algoritmo de seleção)
+=======
+'''
+
+#  2) mutation: To test mutation uncomment the code bellow
+'''
+#Nota: Aqui só está o exemplo de fps, para testar tudo mudar o algoritmo de seleção
+>>>>>>> Stashed changes
 experiments = [
     [100, 300, 0.9, 0.2, fps, swap_mutation, single_point_xo, True],
     [100, 300, 0.9, 0.2, fps, random_reseting, single_point_xo, True],
@@ -72,7 +92,19 @@ experiments = [
     [100, 300, 0.9, 0.2, fps, scramble_mutation, single_point_xo, True],
     [100, 300, 0.9, 0.2, fps, centre_inverse_mutation, single_point_xo, True]
 ]
+<<<<<<< Updated upstream
 """"
+=======
+'''
+# 3) geometric operators:  To test mutation uncomment the code bellow
+
+experiments = [
+    [250, 50, 0.9, 0.2, fps, geometric_mutation, geometric_xo, True],
+    [250, 50, 0.9, 0.2, rank_sel, geometric_mutation, geometric_xo, True],
+    [250, 50, 0.9, 0.2, tournament_sel, geometric_mutation, geometric_xo, True],
+]
+
+>>>>>>> Stashed changes
 
 #run the experiments and store results
 all_median_fitnesses = []
@@ -86,9 +118,9 @@ def create_labels(experiments):
     labels = []
     for exp in experiments:
         label_parts = []
-        #label_parts.append(f"{exp[4].__name__}") #selection
+        label_parts.append(f"{exp[4].__name__}") #selection
         #label_parts.append(f"{exp[5].__name__}") #mutation
-        label_parts.append(f"{exp[6].__name__}") #crossover
+        #label_parts.append(f"{exp[6].__name__}") #crossover
         labels.append(", ".join(label_parts))
     return labels
 

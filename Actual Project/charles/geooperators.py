@@ -1,5 +1,5 @@
 import numpy as np
-def geometric_xo(parent1, parent2, alpha=0.9):
+def geometric_xo(parent1, parent2, alpha=0.5):
     """Implementation geometric semantic crossover.
 
     Args:
@@ -38,7 +38,7 @@ print("Offspring 2:", offspring2)
 
 
 
-def geometric_mutation(individual, mutation_step=0.9):
+def geometric_mutation(individual, mutation_step=1):
     """
     Perform geometric semantic mutation on an individual.
 
@@ -67,9 +67,6 @@ def geometric_mutation(individual, mutation_step=0.9):
         mutated_individual[i] = round(mutated_individual[i])
 
     return mutated_individual
-
-
-
 
 """""
 # Example usage
