@@ -91,12 +91,17 @@ def arithmetic_xo(parent1, parent2):
 def blend_xo(parent1, parent2):
     offspring1 = []
     offspring2 = []
-    alpha = 0.5
 
     for i in range(len(parent1)):
-        weight1 = alpha * parent1[i] + (1 - alpha) * parent2[i]
-        weight2 = (1 - alpha) * parent1[i] + alpha * parent2[i]
+        # Determine the range based on parent values
+        weight_min = min(parent1[i], parent2[i])
+        weight_max = max(parent1[i], parent2[i])
 
+        # Randomly select a value within the range for offspring
+        weight1 = uniform(weight_min, weight_max)
+        weight2 = uniform(weight_min, weight_max)
+
+        # Add the selected value to offspring
         offspring1.append(weight1)
         offspring2.append(weight2)
 
