@@ -18,7 +18,7 @@ def run_experiment(args):
     population_size, generations, crossover_probability, mutation_probability, selection, mutation, crossover, elitism, sol_size, valid_set = args
     all_fitness = []
 
-    for i in range(5):  # Number of runs
+    for i in range(30):  # Number of runs
         start_time = time.time()
 
         # Create a population
@@ -46,27 +46,27 @@ def run_experiment(args):
 
 
 # Define experiments - comment and uncomment accordingly
-
+"""
 # Crossovers
 experiments = [
-    [500, 250, 0.9, 0.2, tournament_sel, swap_mutation, single_point_xo, True],
-    [500, 250, 0.9, 0.2, tournament_sel, swap_mutation, two_point_xo, True],
-    [500, 250, 0.9, 0.2, tournament_sel, swap_mutation, uniform_xo, True],
-    [500, 250, 0.9, 0.2, tournament_sel, swap_mutation, arithmetic_xo, True],
-    [500, 250, 0.9, 0.2, tournament_sel, swap_mutation, blend_xo, True],
-    [500, 250, 0.9, 0.2, tournament_sel, swap_mutation, blx_alpha_xo, True],
-    [500, 250, 0.9, 0.2, tournament_sel, swap_mutation, order_one_xo, True]
+    [1000, 400, 0.9, 0.2, tournament_sel, swap_mutation, single_point_xo, True],
+    [1000, 400, 0.9, 0.2, tournament_sel, swap_mutation, two_point_xo, True],
+    [1000, 400, 0.9, 0.2, tournament_sel, swap_mutation, uniform_xo, True],
+    [1000, 400, 0.9, 0.2, tournament_sel, swap_mutation, arithmetic_xo, True],
+    [1000, 400, 0.9, 0.2, tournament_sel, swap_mutation, blend_xo, True],
+    [1000, 400, 0.9, 0.2, tournament_sel, swap_mutation, blx_alpha_xo, True],
+    [1000, 400, 0.9, 0.2, tournament_sel, swap_mutation, order_one_xo, True]
 ]
 """
 # Mutations
 experiments = [
-    [500, 250, 0.9, 0.2, tournament_sel, swap_mutation, single_point_xo, True],
-    [500, 250, 0.9, 0.2, tournament_sel, random_reseting, single_point_xo, True],
-    [500, 250, 0.9, 0.2, tournament_sel, inversion_mutation, single_point_xo, True],
-    [500, 250, 0.9, 0.2, tournament_sel, scramble_mutation, single_point_xo, True],
-    [500, 250, 0.9, 0.2, tournament_sel, centre_inverse_mutation, single_point_xo, True]
+    [1000, 250, 0.9, 0.2, tournament_sel, swap_mutation, single_point_xo, True],
+    [1000, 250, 0.9, 0.2, tournament_sel, random_reseting, single_point_xo, True],
+    [1000, 250, 0.9, 0.2, tournament_sel, inversion_mutation, single_point_xo, True],
+    [1000, 250, 0.9, 0.2, tournament_sel, scramble_mutation, single_point_xo, True],
+    [1000, 250, 0.9, 0.2, tournament_sel, centre_inverse_mutation, single_point_xo, True]
 ]
-"""
+
 
 # Add sol_size and valid_set to each experiment
 for exp in experiments:
@@ -81,8 +81,8 @@ if __name__ == '__main__':
         labels = []
         for exp in experiments:
             label_parts = []
-            label_parts.append(f"{exp[6].__name__}") # Crossover
-            #label_parts.append(f"{exp[5].__name__}")  # Mutation
+            #label_parts.append(f"{exp[6].__name__}") # Crossover
+            label_parts.append(f"{exp[5].__name__}")  # Mutation
             labels.append(", ".join(label_parts))
         return labels
 
@@ -91,6 +91,7 @@ if __name__ == '__main__':
     def plot_average_best_fitness(all_median_fitnesses, labels):
         for i, median_best_fitness in enumerate(all_median_fitnesses):
             plt.plot(range(1, len(median_best_fitness) + 1), median_best_fitness, linestyle='-', label=labels[i])
+
 
         plt.title('Median Best Fitness per Generation')
         plt.xlabel('Generation')
