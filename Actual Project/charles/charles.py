@@ -1,6 +1,8 @@
+import numpy as np
 from operator import attrgetter
 from random import shuffle, choice, sample, random
 from copy import copy
+from charles.initializations import melody_rules
 
 
 #create individuals
@@ -11,7 +13,8 @@ class Individual:
         if representation is None:
             if repetition:
                 # individual will be chosen from the valid_set with a specific size
-                self.representation = [choice(valid_set) for i in range(size)]
+                #self.representation = [choice(valid_set) for i in range(size)]
+                self.representation = melody_rules(size)
             else:
                 self.representation = sample(valid_set, size)
 
