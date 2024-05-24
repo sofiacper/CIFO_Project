@@ -5,7 +5,7 @@ from copy import copy
 from math import sqrt
 from charles.selection import fps, tournament_sel
 from charles.mutation import swap_mutation
-from charles.xo import single_point_xo, two_point_xo, uniform_xo, arithmetic_xo, blend_xo, blx_alpha_xo, order_one_xo
+from charles.xo import single_point_xo, two_point_xo, uniform_xo, blend_xo, blx_alpha_xo, order_one_xo
 
 ##__________________Target________________________
 target = [76, 12, 76, 12, 20, 12, 76, 12, 20, 12, 72, 12, 76, 12, 20, 12, 79, 12, 20, 36, 67, 12, 20, 36, 72, 12, 20,
