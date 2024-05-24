@@ -74,6 +74,18 @@ def order_one_xo(parent1, parent2):
 
     return offspring1, offspring2
 
+def arithmetic_xo(parent1, parent2):
+    # create r - only one randomly generated value between 0 and 1, in a uniform distribution
+    alpha = uniform(0,1)
+
+    offspring1 = []
+    offspring2 = []
+
+    for i in range(len(parent1)):
+        offspring1.append(alpha * parent1[i] + (1 - alpha) * parent2[i])
+        offspring2.append((1 - alpha) * parent1[i] + alpha * parent2[i])
+
+    return offspring1, offspring2
 
 def blend_xo(parent1, parent2):
     offspring1 = []
