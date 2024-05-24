@@ -2,7 +2,7 @@ import numpy as np
 from operator import attrgetter
 from random import shuffle, choice, sample, random
 from copy import copy
-from charles.initializations import melody_rules
+from initializations import melody_rules
 
 
 #create individuals
@@ -102,10 +102,10 @@ class Population:
 
             self.individuals = new_pop
 
-            #if self.optim == "max":
-                #print(f"Best individual of gen #{i + 1}: {max(self, key=attrgetter('fitness'))}")
-            #elif self.optim == "min":
-                #print(f"Best individual of gen #{i + 1}: {min(self, key=attrgetter('fitness'))}")
+            if self.optim == "max":
+                print(f"Best individual of gen #{i + 1}: {max(self, key=attrgetter('fitness'))}")
+            elif self.optim == "min":
+                print(f"Best individual of gen #{i + 1}: {min(self, key=attrgetter('fitness'))}")
 
 
     def __len__(self):

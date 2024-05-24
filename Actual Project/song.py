@@ -56,10 +56,10 @@ def get_neighbours(self):
 Individual.get_fitness = get_fitness
 Individual.get_neighbours = get_neighbours
 
-P = Population(size=20, optim="min", sol_size=312,
+P = Population(size=500, optim="min", sol_size=312,
                  valid_set=[i for i in range(127)], repetition=True)
 
-P.evolve(gens=10, xo_prob=0.9, mut_prob=0.15, select=fps, xo=single_point_xo, mutate=swap_mutation, elitism=True)
+P.evolve(gens=300, xo_prob=0.9, mut_prob=0.15, select=fps, xo=uniform_xo, mutate=swap_mutation, elitism=True)
 
 
 
