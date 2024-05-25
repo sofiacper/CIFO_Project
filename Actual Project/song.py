@@ -26,7 +26,7 @@ target = [76, 12, 76, 12, 20, 12, 76, 12, 20, 12, 72, 12, 76, 12, 20, 12, 79, 12
 #__________________Methods________________________
 def get_fitness(self):
     """A simple objective function to calculate distances
-    for the TSP problem.
+    for the our problem.
 
     Returns:
         int: the total distance of the path
@@ -56,10 +56,10 @@ def get_neighbours(self):
 Individual.get_fitness = get_fitness
 Individual.get_neighbours = get_neighbours
 
-P = Population(size=500, optim="min", sol_size=312,
+P = Population(size=50, optim="min", sol_size=312,
                  valid_set=[i for i in range(127)], repetition=True)
 
-P.evolve(gens=300, xo_prob=0.9, mut_prob=0.15, select=fps, xo=uniform_xo, mutate=swap_mutation, elitism=True)
+P.evolve(gens=50, xo_prob=0.9, mut_prob=0.15, select=fps, xo=single_point_xo, mutate=swap_mutation, elitism=True)
 
 
 
