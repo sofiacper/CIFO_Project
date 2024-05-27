@@ -2,7 +2,7 @@ import numpy as np
 from operator import attrgetter
 from random import shuffle, choice, sample, random
 from copy import copy
-from initializations import melody_rules, major_scale
+from initializations import melody_rules, major_scale, sobol_sequence
 
 
 #create individuals
@@ -15,7 +15,9 @@ class Individual:
                 # individual will be chosen from the valid_set with a specific size
                 #self.representation = [choice(valid_set) for i in range(size)]
                 #self.representation = melody_rules(size, 2)
-                self.representation = major_scale(size)
+                #self.representation = major_scale(size)
+                self.representation = sobol_sequence(size)
+
             else:
                 self.representation = sample(valid_set, size)
 
